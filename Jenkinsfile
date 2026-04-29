@@ -1,11 +1,11 @@
 node {
     stage ("Build") {
-        sh 'echo("building")'
+        sh 'echo "building"'
     }
     stage ("Test") {
-        sh 'echo("testing")'
+        sh 'echo "testing"'
     }
     stage ("deploy") {
-        sh 'echo("deploying")'
+        sh 'echo "deploying"'
     }
 }

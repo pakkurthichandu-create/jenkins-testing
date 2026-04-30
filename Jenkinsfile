@@ -64,6 +64,9 @@ pipeline {
 
                     sh "docker push chandu4440/jenkins-practice:v${BUILD_NUMBER}"
                     sh "docker push chandu4440/jenkins-practice:latest"
+
+                    sh "docker rmi chandu4440/jenkins-practice:v${BUILD_NUMBER}"
+                    sh "docker rmi chandu4440/jenkins-practice:latest"
                 }
             }
         }

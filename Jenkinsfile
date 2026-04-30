@@ -33,7 +33,9 @@
 
 
 pipeline {
-    agent any
+    agent {
+        label "worker-1"
+    }
 
     options {
         skipDefaultCheckout()

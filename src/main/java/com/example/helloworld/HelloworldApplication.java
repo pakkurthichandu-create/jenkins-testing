@@ -11,7 +11,6 @@ public class HelloworldApplication {
 
 		System.out.println("FROM THE DEVELOPER CODE");
 		System.out.println("testing1");
-		System.out.println("testing2");
 	}
 
 }

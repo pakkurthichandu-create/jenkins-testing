@@ -37,10 +37,6 @@ pipeline {
         label "worker-1"
     }
 
-    options{
-        skipDefaultCheckout()
-    }
-
     stages {
         stage('Build') {
             steps {

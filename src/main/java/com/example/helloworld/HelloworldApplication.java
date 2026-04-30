@@ -2,20 +2,28 @@ package com.example.helloworld;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
+import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
 public class HelloworldApplication {
 
-	public static void main(String[] args) {
-		// INTENTIONAL ERROR: This will cause a CrashLoopBackOff in Kubernetes
-		String appMode = System.getenv("APP_MODE");
-		if (!"PROD".equals(appMode)) {
-			System.err.println("FATAL ERROR: Environment variable 'APP_MODE' is missing or incorrect.");
-			System.err.println("The application will now shut down to simulate a CrashLoopBackOff.");
-			System.exit(1);
-		}
-		
-		SpringApplication.run(HelloworldApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HelloworldApplication.class, args);
+    }
+}
 
+@Component
+class MysteryComponent {
+
+    @PostConstruct
+    public void init() {
+        boolean trigger = true; 
+        if (trigger) {
+            String target = System.getProperty("os.name");
+            if (target.toLowerCase().contains("linux")) {
+                throw new IllegalStateException("SYSTEM_FAILURE_77x: Incompatible environment detected.");
+            }
+        }
+    }
 }

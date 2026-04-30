@@ -12,7 +12,7 @@ public class HelloworldApplication {
             System.err.println("FATAL: Kubernetes environment detected. Crashing for testing purposes...");
             System.exit(1);
         }
-        
+
         SpringApplication.run(HelloworldApplication.class, args);
     }
 

@@ -34,7 +34,7 @@
 
 pipeline {
     agent any
-
+    
     stages {
         stage('Build') {
             steps {
@@ -67,15 +67,16 @@ pipeline {
                 }
             }
         }
+
         stage('Update Manifest Repo') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-token', 
                                                passwordVariable: 'GIT_TOKEN', 
                                                usernameVariable: 'GIT_USER')]) {
                     sh """
-                        # 1. Clone the Manifest Repository
-                        git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/pakkurthichandu-create/jenkins-testing-manifests.git
-                        cd jenkins-testing-manifests
+                        # 1. Clone the Manifest Repository (Using your correct repo name)
+                        git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/pakkurthichandu-create/manifest-for-kubenetes.git
+                        cd manifest-for-kubenetes
 
                         # 2. Configure Git
                         git config user.email "jenkins@example.com"
@@ -87,18 +88,16 @@ pipeline {
                         # 4. Push back to GitHub
                         git add deployment.yaml
                         git commit -m "Update image to v${BUILD_NUMBER} [skip ci]"
-                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/pakkurthichandu-create/jenkins-testing-manifests.git main
+                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/pakkurthichandu-create/manifest-for-kubenetes.git main
                         
                         # 5. Clean up
                         cd ..
-                        rm -rf jenkins-testing-manifests
+                        rm -rf manifest-for-kubenetes
                     """
                 }
             }
         }
     }
-
-    
 
     post {
         always {

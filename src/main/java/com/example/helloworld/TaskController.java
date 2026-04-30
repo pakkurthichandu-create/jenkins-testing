@@ -3,6 +3,8 @@ package com.example.helloworld;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Controller
 public class TaskController {
@@ -15,13 +17,24 @@ public class TaskController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("tasks", repository.findAll());
+        Iterable<Task> allTasks = repository.findAll();
+        List<Task> taskList = StreamSupport.stream(allTasks.spliterator(), false).toList();
+        
+        long totalTasks = taskList.size();
+        long completedTasks = taskList.stream().filter(Task::isCompleted).count();
+        int progress = totalTasks > 0 ? (int) ((completedTasks * 100) / totalTasks) : 0;
+
+        model.addAttribute("tasks", taskList);
+        model.addAttribute("total", totalTasks);
+        model.addAttribute("completed", completedTasks);
+        model.addAttribute("progress", progress);
+        
         return "index";
     }
 
     @PostMapping("/addTask")
     public String addTask(@RequestParam String description) {
-        if (!description.isEmpty()) {
+        if (description != null && !description.trim().isEmpty()) {
             repository.save(new Task(description));
         }
         return "redirect:/";

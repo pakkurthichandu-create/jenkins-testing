@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Task {
@@ -13,10 +15,14 @@ public class Task {
     private Long id;
     private String description;
     private boolean completed;
+    private LocalDateTime createdAt;
 
-    public Task() {}
+    public Task() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     public Task(String description) {
+        this();
         this.description = description;
         this.completed = false;
     }
@@ -27,4 +33,9 @@ public class Task {
     public void setDescription(String description) { this.description = description; }
     public boolean isCompleted() { return completed; }
     public void setCompleted(boolean completed) { this.completed = completed; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    
+    public String getFormattedDate() {
+        return createdAt.format(DateTimeFormatter.ofPattern("HH:mm a"));
+    }
 }

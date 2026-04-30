@@ -15,7 +15,6 @@ public class HelloworldApplication {
 		System.out.println("testing3");
 		System.out.println("testing4");
 		System.out.println("testing5");
-		System.out.println("testing6");
 	}
 
 }

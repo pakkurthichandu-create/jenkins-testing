@@ -33,8 +33,11 @@
 
 
 pipeline {
-    agent any
-    
+    agent {
+        label "worker-1"
+    }
+
+
     stages {
         stage('Build') {
             steps {

@@ -10,7 +10,6 @@ public class HelloworldApplication {
 		SpringApplication.run(HelloworldApplication.class, args);
 
 		System.out.println("FROM THE DEVELOPER CODE");
-		System.out.println("testing1");
 	}
 
 }

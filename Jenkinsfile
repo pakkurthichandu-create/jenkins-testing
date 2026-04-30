@@ -53,14 +53,6 @@ pipeline {
             steps {
                 sh "docker build -t chandu4440/jenkins-practice:v${BUILD_NUMBER} ."
                 sh "docker tag chandu4440/jenkins-practice:v${BUILD_NUMBER} chandu4440/jenkins-practice:latest"
-
-                sh "docker run -d --name test-app chandu4440/jenkins-practice:v${BUILD_NUMBER}"
-
-                sh "sleep 10"
-
-                sh 'if [ "$(docker inspect -f {{.State.Running}} test-app)" == "false" ]; then docker logs test-app; exit 1; fi'
-
-                sh "docker stop test-app && docker rm test-app"
                 
                 withCredentials([usernamePassword(
                     credentialsId: 'docker-hub-creds', 

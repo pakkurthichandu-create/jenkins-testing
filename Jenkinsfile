@@ -35,9 +35,14 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout()
+    }
+
     stages {
         stage('Build') {
             steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/pakkurthichandu-create/jenkins-testing.git'
                 sh './mvnw clean package'
             }
         }

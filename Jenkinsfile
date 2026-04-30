@@ -58,6 +58,8 @@ pipeline {
 
                 sh "sleep 10"
 
+                sh 'if [ "$(docker inspect -f {{.State.Running}} test-app)" == "false" ]; then docker logs test-app; exit 1; fi'
+
                 sh "docker stop test-app && docker rm test-app"
                 
                 withCredentials([usernamePassword(

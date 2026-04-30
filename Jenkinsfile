@@ -74,7 +74,7 @@ pipeline {
                                                usernameVariable: 'GIT_USER')]) {
                     sh """
                         # 1. Clone the Manifest Repository
-                        git clone https://github.com/pakkurthichandu-create/jenkins-testing-manifests.git
+                        git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/pakkurthichandu-create/jenkins-testing-manifests.git
                         cd jenkins-testing-manifests
 
                         # 2. Configure Git

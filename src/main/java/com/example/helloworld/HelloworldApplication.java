@@ -8,9 +8,7 @@ public class HelloworldApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HelloworldApplication.class, args);
-        System.out.println("testing1") // Missing semicolon
-        thisMethodDoesNotExist(); // Non-existent method
-        int crash = 1 / 0;
+        System.out.println("testing1");
     }
 
 }

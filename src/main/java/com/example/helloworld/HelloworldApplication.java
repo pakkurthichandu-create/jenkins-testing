@@ -18,9 +18,9 @@ public class HelloworldApplication implements HealthIndicator {
         System.out.println("Doctor Pod is ONLINE and watching!");
     }
 
-    @GetMapping("/")
+    @GetMapping("/doctor")
     public String hello() {
-        return "Hello World! Everything is fine... for now.";
+        return "Hello World! The Doctor Pod is ONLINE and watching... for now.";
     }
 
     @GetMapping("/sabotage")

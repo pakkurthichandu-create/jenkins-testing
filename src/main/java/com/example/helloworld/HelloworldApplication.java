@@ -8,10 +8,7 @@ public class HelloworldApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HelloworldApplication.class, args);
-        // This compiles fine, but will kill the Pod immediately after startup
-        if (System.getenv("STABLE_MODE") == null) {
-            throw new RuntimeException("ERROR: Critical Environment Variable 'STABLE_MODE' is missing! Shutting down.");
-        }
+        System.out.println("Application is STABLE and ready for Scenario 2!");
     }
 
 }

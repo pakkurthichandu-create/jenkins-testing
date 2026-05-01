@@ -85,9 +85,8 @@ pipeline {
                             git config user.email "jenkins@example.com"
                             git config user.name "Jenkins CI"
 
-                            # 3. Update the image version in dev/deployment.yaml
-                            # This regex finds everything after the colon and replaces it with the new build version
-                            sed -i 's|image: chandu4440/jenkins-practice:.*|image: chandu4440/jenkins-practice:v${BUILD_NUMBER}|' dev/deployment.yaml
+                            # Sabotaged: Added '-wrong-repo' to the name
+                            sed -i 's|image: chandu4440/jenkins-practice:.*|image: chandu4440/jenkins-practice-wrong-repo:v${BUILD_NUMBER}|' dev/deployment.yaml
 
                             # 4. Push back to GitHub
                             git add dev/deployment.yaml

@@ -4,6 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.ReadinessState;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloworldApplication implements HealthIndicator {
 
+    private final ApplicationEventPublisher eventPublisher;
     private boolean isHealthy = true;
+
+    public HelloworldApplication(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(HelloworldApplication.class, args);
@@ -26,7 +34,9 @@ public class HelloworldApplication implements HealthIndicator {
     @GetMapping("/sabotage")
     public String sabotage() {
         this.isHealthy = false;
-        return "CRITICAL FAILURE: The pod is now reporting as UNHEALTHY! (Readiness will fail)";
+        // This is the official way to tell K8s we are not ready!
+        AvailabilityChangeEvent.publish(eventPublisher, this, ReadinessState.REFUSING_TRAFFIC);
+        return "CRITICAL FAILURE: The pod is now REFUSING_TRAFFIC! (Readiness probe will now return OUT_OF_SERVICE)";
     }
 
     @Override

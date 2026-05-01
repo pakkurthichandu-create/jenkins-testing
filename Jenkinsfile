@@ -42,11 +42,15 @@ pipeline {
             }
         }
 
-        stage('Build, Test & Push') {
+        stage('Build & Test') {
             steps {
                 sh "docker build -t chandu4440/jenkins-practice:v${BUILD_NUMBER} ."
                 sh "docker tag chandu4440/jenkins-practice:v${BUILD_NUMBER} chandu4440/jenkins-practice:latest"
-                
+            }
+        }
+
+        stage('Deploy') {
+            steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'docker-hub-creds', 
                     passwordVariable: 'PASS', 

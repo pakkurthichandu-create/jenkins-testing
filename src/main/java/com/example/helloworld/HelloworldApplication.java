@@ -4,22 +4,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.boot.availability.AvailabilityChangeEvent;
-import org.springframework.boot.availability.ReadinessState;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 @RestController
 public class HelloworldApplication implements HealthIndicator {
 
-    private final ApplicationEventPublisher eventPublisher;
-    private boolean isHealthy = true;
-
-    public HelloworldApplication(ApplicationEventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
-    }
+    private LocalDateTime healthyAgainAt = null;
 
     public static void main(String[] args) {
         SpringApplication.run(HelloworldApplication.class, args);
@@ -33,17 +26,17 @@ public class HelloworldApplication implements HealthIndicator {
 
     @GetMapping("/sabotage")
     public String sabotage() {
-        this.isHealthy = false;
-        // This is the official way to tell K8s we are not ready!
-        AvailabilityChangeEvent.publish(eventPublisher, this, ReadinessState.REFUSING_TRAFFIC);
-        return "CRITICAL FAILURE: The pod is now REFUSING_TRAFFIC! (Readiness probe will now return OUT_OF_SERVICE)";
+        // App will be unhealthy for the next 30 seconds
+        this.healthyAgainAt = LocalDateTime.now().plusSeconds(30);
+        return "CRITICAL FAILURE: The pod is now UNHEALTHY for 30 seconds. Watch K8s heal it!";
     }
 
     @Override
     public Health health() {
-        if (!isHealthy) {
-            return Health.down().withDetail("Reason", "User sabotaged the pod!").build();
+        if (healthyAgainAt != null && LocalDateTime.now().isBefore(healthyAgainAt)) {
+            return Health.down().withDetail("Reason", "Simulated Database Maintenance").build();
         }
-        return Health.up().build();
+        // If we reach here, either we weren't sabotaged, or we "healed"
+        return Health.up().withDetail("Status", "Self-healed or Healthy").build();
     }
 }

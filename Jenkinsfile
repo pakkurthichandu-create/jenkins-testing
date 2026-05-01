@@ -36,20 +36,13 @@ pipeline {
     agent any
     
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
                 git branch: 'main', changelog: false, poll: false, url: 'https://github.com/pakkurthichandu-create/jenkins-testing.git'
-                sh './mvnw clean package -DskipTests'
             }
         }
-        
-        stage('Test') {
-            steps {
-                sh './mvnw test'
-            }
-        }
-        
-        stage('Deploy') {
+
+        stage('Build, Test & Push') {
             steps {
                 sh "docker build -t chandu4440/jenkins-practice:v${BUILD_NUMBER} ."
                 sh "docker tag chandu4440/jenkins-practice:v${BUILD_NUMBER} chandu4440/jenkins-practice:latest"

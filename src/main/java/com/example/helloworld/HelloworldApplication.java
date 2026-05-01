@@ -11,7 +11,6 @@ public class HelloworldApplication {
         // This compiles fine, but will kill the Pod immediately after startup
         if (System.getenv("STABLE_MODE") == null) {
             throw new RuntimeException("ERROR: Critical Environment Variable 'STABLE_MODE' is missing! Shutting down.");
-
         }
     }
 

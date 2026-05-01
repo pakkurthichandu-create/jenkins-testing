@@ -26,7 +26,7 @@ public class HelloworldApplication implements HealthIndicator {
     @GetMapping("/sabotage")
     public String sabotage() {
         this.isHealthy = false;
-        return "CRITICAL FAILURE: The pod is now reporting as UNHEALTHY!";
+        return "CRITICAL FAILURE: The pod is now reporting as UNHEALTHY! (Readiness will fail)";
     }
 
     @Override

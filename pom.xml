@@ -14,7 +14,7 @@
 	<name>helloworld</name>
 	<description>Spring Boot CRUD with Thymeleaf</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>23</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

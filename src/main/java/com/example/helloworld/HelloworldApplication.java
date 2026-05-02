@@ -13,6 +13,7 @@ public class HelloworldApplication {
         SpringApplication.run(HelloworldApplication.class, args);
         System.out.println("testing1");
         System.out.println("testing1");
+        System.out.println("testing1");
     }
 
     @GetMapping("/status")
